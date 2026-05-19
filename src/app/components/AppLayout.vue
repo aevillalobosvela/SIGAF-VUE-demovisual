@@ -92,6 +92,10 @@ const breadcrumbMap: Record<string, string[]> = {
   revaluation: ['Inicio', 'Activos', 'Depreciación', 'Revalúo'],
   actas: ['Inicio', 'Reportes', 'Actas'],
   'acta-preview': ['Inicio', 'Reportes', 'Actas', 'Vista Previa'],
+  users: ['Inicio', 'Configuración', 'Usuarios'],
+  'user-form': ['Inicio', 'Configuración', 'Usuarios', 'Formulario'],
+  'system-parameters': ['Inicio', 'Configuración', 'Parámetros del Sistema'],
+  'audit-log': ['Inicio', 'Configuración', 'Registro de Auditoría'],
 }
 
 const breadcrumbs = computed(

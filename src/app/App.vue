@@ -123,6 +123,29 @@
         @back="handleNavigate('actas')"
       />
 
+      <!-- Configuración -->
+      <UsersList
+        v-else-if="currentScreen === 'users'"
+        :userRole="userRole"
+        @new-user="handleNewUser"
+        @edit-user="handleViewUser"
+      />
+      <UserForm
+        v-else-if="currentScreen === 'user-form'"
+        :userRole="userRole"
+        :userId="selectedUserId"
+        @cancel="handleNavigate('users')"
+        @save="handleNavigate('users')"
+      />
+      <SystemParameters
+        v-else-if="currentScreen === 'system-parameters'"
+        :userRole="userRole"
+      />
+      <AuditLog
+        v-else-if="currentScreen === 'audit-log'"
+        :userRole="userRole"
+      />
+
       <!-- Fallback -->
       <DashboardContent v-else :userRole="userRole" />
     </AppLayout>
@@ -154,6 +177,10 @@ import DepreciationRecords from './components/DepreciationRecords.vue'
 import RevaluationForm from './components/RevaluationForm.vue'
 import ActasList from './components/ActasList.vue'
 import ActaPreview from './components/ActaPreview.vue'
+import UsersList from './components/UsersList.vue'
+import UserForm from './components/UserForm.vue'
+import SystemParameters from './components/SystemParameters.vue'
+import AuditLog from './components/AuditLog.vue'
 
 // ── Estado de navegación ──────────────────────────────────────────────────────
 const currentScreen = ref<Screen>('login')
@@ -164,6 +191,7 @@ const selectedMaterialId = ref<string | null>(null)
 const selectedProcessId = ref<string | null>(null)
 const selectedInventoryId = ref<string | null>(null)
 const selectedActaId = ref<string | null>(null)
+const selectedUserId = ref<string | null>(null)
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 function handleLogin(role: UserRole) {
@@ -222,5 +250,15 @@ function handleViewInventory(inventoryId: string, tab: 'scan' | 'result') {
 function handleViewActa(actaId: string) {
   selectedActaId.value = actaId
   currentScreen.value = 'acta-preview'
+}
+
+function handleViewUser(userId: string) {
+  selectedUserId.value = userId
+  currentScreen.value = 'user-form'
+}
+
+function handleNewUser() {
+  selectedUserId.value = null
+  currentScreen.value = 'user-form'
 }
 </script>

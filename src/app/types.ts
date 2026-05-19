@@ -21,3 +21,7 @@ export type Screen =
   | 'revaluation'
   | 'actas'
   | 'acta-preview'
+  | 'users'
+  | 'user-form'
+  | 'system-parameters'
+  | 'audit-log'

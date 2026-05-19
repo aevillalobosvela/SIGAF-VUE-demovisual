@@ -65,6 +65,7 @@ import {
   Settings,
   Users,
   BarChart,
+  ShieldCheck,
 } from 'lucide-vue-next'
 import type { UserRole, Screen } from '../types'
 
@@ -180,12 +181,20 @@ const menuSections: MenuSection[] = [
       {
         label: 'Usuarios',
         icon: Users,
-        roles: ['Administrador'],
+        roles: ['Administrador'] as UserRole[],
+        screen: 'users' as Screen,
       },
       {
-        label: 'Configuración',
+        label: 'Parámetros del Sistema',
         icon: Settings,
-        roles: ['Administrador'],
+        roles: ['Administrador'] as UserRole[],
+        screen: 'system-parameters' as Screen,
+      },
+      {
+        label: 'Auditoría',
+        icon: ShieldCheck,
+        roles: ['Administrador'] as UserRole[],
+        screen: 'audit-log' as Screen,
       },
     ],
   },
