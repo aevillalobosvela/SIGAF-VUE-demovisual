@@ -163,6 +163,40 @@
         @back="handleNavigate('reports')"
       />
 
+      <!-- Bajas -->
+      <AssetWriteOffForm
+        v-else-if="currentScreen === 'write-off'"
+        :userRole="userRole"
+        @cancel="handleNavigate('processes')"
+      />
+
+      <!-- Rangos NIA/NIM -->
+      <IdentifierRangesList
+        v-else-if="currentScreen === 'identifier-ranges'"
+        :userRole="userRole"
+        @new-range="handleNavigate('identifier-range-form')"
+        @transfer-range="handleTransferRange"
+      />
+      <IdentifierRangeForm
+        v-else-if="currentScreen === 'identifier-range-form'"
+        :userRole="userRole"
+        @cancel="handleNavigate('identifier-ranges')"
+        @save="handleNavigate('identifier-ranges')"
+      />
+      <IdentifierRangeTransfer
+        v-else-if="currentScreen === 'identifier-range-transfer'"
+        :userRole="userRole"
+        @cancel="handleNavigate('identifier-ranges')"
+        @save="handleNavigate('identifier-ranges')"
+      />
+
+      <!-- Asientos Contables -->
+      <AccountingEntries
+        v-else-if="currentScreen === 'accounting-entries'"
+        :userRole="userRole"
+        @back="handleNavigate('depreciation')"
+      />
+
       <!-- Fallback -->
       <DashboardContent v-else :userRole="userRole" />
     </AppLayout>
@@ -201,6 +235,11 @@ import AuditLog from './components/AuditLog.vue'
 import ReportsMenu from './components/ReportsMenu.vue'
 import ReportView from './components/ReportView.vue'
 import ReportCharts from './components/ReportCharts.vue'
+import AssetWriteOffForm from './components/AssetWriteOffForm.vue'
+import IdentifierRangesList from './components/IdentifierRangesList.vue'
+import IdentifierRangeForm from './components/IdentifierRangeForm.vue'
+import IdentifierRangeTransfer from './components/IdentifierRangeTransfer.vue'
+import AccountingEntries from './components/AccountingEntries.vue'
 
 // ── Estado de navegación ──────────────────────────────────────────────────────
 const currentScreen = ref<Screen>('login')
@@ -212,6 +251,7 @@ const selectedProcessId = ref<string | null>(null)
 const selectedInventoryId = ref<string | null>(null)
 const selectedActaId = ref<string | null>(null)
 const selectedUserId = ref<string | null>(null)
+const selectedRangeId = ref<string | null>(null)
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 function handleLogin(role: UserRole) {
@@ -280,5 +320,10 @@ function handleViewUser(userId: string) {
 function handleNewUser() {
   selectedUserId.value = null
   currentScreen.value = 'user-form'
+}
+
+function handleTransferRange(rangeId: string) {
+  selectedRangeId.value = rangeId
+  currentScreen.value = 'identifier-range-transfer'
 }
 </script>

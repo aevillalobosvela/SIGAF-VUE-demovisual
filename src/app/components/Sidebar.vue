@@ -66,6 +66,7 @@ import {
   Users,
   BarChart,
   ShieldCheck,
+  Hash,
 } from 'lucide-vue-next'
 import type { UserRole, Screen } from '../types'
 
@@ -149,7 +150,8 @@ const menuSections: MenuSection[] = [
       {
         label: 'Bajas',
         icon: FileText,
-        roles: ['Administrador', 'Operador'],
+        roles: ['Administrador', 'Operador'] as UserRole[],
+        screen: 'write-off' as Screen,
       },
     ],
   },
@@ -171,8 +173,14 @@ const menuSections: MenuSection[] = [
       {
         label: 'Depreciación',
         icon: BarChart,
-        roles: ['Administrador', 'Operador'],
-        screen: 'depreciation',
+        roles: ['Administrador', 'Operador'] as UserRole[],
+        screen: 'depreciation' as Screen,
+      },
+      {
+        label: 'Rangos NIA / NIM',
+        icon: Hash,
+        roles: ['Administrador', 'Operador'] as UserRole[],
+        screen: 'identifier-ranges' as Screen,
       },
     ],
   },

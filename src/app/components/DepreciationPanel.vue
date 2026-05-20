@@ -154,7 +154,7 @@ const actionCards = [
     icon: BookOpen,
     color: 'bg-purple-50 border-purple-300 hover:bg-purple-100',
     iconColor: 'text-purple-600',
-    action: 'ledger' as string,
+    action: 'accounting-entries' as Screen,
     requiresAuth: false,
   },
 ]
@@ -170,7 +170,7 @@ function isDisabled(card: typeof actionCards[0]) {
 }
 
 function handleCardClick(action: string) {
-  if (action === 'depreciation-records' || action === 'revaluation') {
+  if (action === 'depreciation-records' || action === 'revaluation' || action === 'accounting-entries') {
     emit('navigate', action as Screen)
   }
 }

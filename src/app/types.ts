@@ -28,3 +28,8 @@ export type Screen =
   | 'reports'
   | 'report-view'
   | 'report-charts'
+  | 'write-off'
+  | 'identifier-ranges'
+  | 'identifier-range-form'
+  | 'identifier-range-transfer'
+  | 'accounting-entries'

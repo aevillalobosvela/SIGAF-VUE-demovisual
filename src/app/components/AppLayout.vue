@@ -99,6 +99,11 @@ const breadcrumbMap: Record<string, string[]> = {
   reports: ['Inicio', 'Reportes'],
   'report-view': ['Inicio', 'Reportes', 'Vista de Reporte'],
   'report-charts': ['Inicio', 'Reportes', 'Estadísticas y Gráficas'],
+  'write-off': ['Inicio', 'Procesos', 'Baja de Activos'],
+  'identifier-ranges': ['Inicio', 'Activos', 'Rangos NIA / NIM'],
+  'identifier-range-form': ['Inicio', 'Activos', 'Rangos NIA / NIM', 'Asignar Rango'],
+  'identifier-range-transfer': ['Inicio', 'Activos', 'Rangos NIA / NIM', 'Transferir Rango'],
+  'accounting-entries': ['Inicio', 'Reportes', 'Asientos Contables'],
 }
 
 const breadcrumbs = computed(
