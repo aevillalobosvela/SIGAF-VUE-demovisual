@@ -229,11 +229,30 @@ import {
 } from 'lucide-vue-next'
 import type { UserRole } from '../types'
 
-defineProps<{ userRole: UserRole }>()
 const emit = defineEmits<{ back: [] }>()
 
-const reporteTitulo     = 'Valor Total de Activos Fijos'
-const reporteDescripcion = 'Inventario valorado con depreciación acumulada y valor neto en libros'
+type ReportConfig = { titulo: string; descripcion: string }
+
+const reportConfigs: Record<string, ReportConfig> = {
+  'valor-total':    { titulo: 'Valor Total de Activos Fijos',       descripcion: 'Inventario valorado con depreciación acumulada y valor neto en libros' },
+  'por-depreciar':  { titulo: 'Activos por Depreciar',              descripcion: 'Activos con vida útil restante y proyección de depreciación por gestión' },
+  'balance':        { titulo: 'Balance General de Activos',         descripcion: 'Resumen contable: valor original, depreciación acumulada y valor neto' },
+  'faltantes':      { titulo: 'Activos Faltantes',                  descripcion: 'Bienes marcados como faltantes en sesiones de inventario físico' },
+  'transferencias': { titulo: 'Transferencias por Período',         descripcion: 'Movimientos de bienes entre unidades en un rango de fechas' },
+  'historial':      { titulo: 'Historial Individual de Bien',       descripcion: 'Trazabilidad completa de un activo desde su alta hasta el estado actual' },
+  'senape':         { titulo: 'Reporte SENAPE',                     descripcion: 'Reporte normativo para la Secretaría Nacional de Pensiones. Activos > Bs. 50.000' },
+  'sipap':          { titulo: 'Reporte SIPAP',                      descripcion: 'Reporte para el Sistema de Programación de Administración de Personal' },
+  'por-unidad':     { titulo: 'Activos por Unidad',                 descripcion: 'Inventario detallado agrupado por unidad organizacional y responsable' },
+}
+
+const props = defineProps<{ userRole: UserRole; reportType?: string }>()
+
+const reporteTitulo = computed(() =>
+  props.reportType ? (reportConfigs[props.reportType]?.titulo ?? 'Reporte') : 'Valor Total de Activos Fijos'
+)
+const reporteDescripcion = computed(() =>
+  props.reportType ? (reportConfigs[props.reportType]?.descripcion ?? '') : 'Inventario valorado con depreciación acumulada y valor neto en libros'
+)
 
 const filtersOpen  = ref(true)
 const currentPage  = ref(1)

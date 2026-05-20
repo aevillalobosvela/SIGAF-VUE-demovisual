@@ -72,11 +72,11 @@ Configuración  (solo Administrador)
 ### Dashboard
 Pantalla principal con:
 - 4 tarjetas de resumen: Total Activos Fijos, Total Materiales de Control, Procesos Pendientes, Procesos Cerrados este Mes
-- Acciones rápidas (visibles solo para Administrador y Operador) — **pendiente: conectar navegación**
+- Acciones rápidas (visibles solo para Administrador y Operador): Registrar Activo, Nuevo Proceso, Iniciar Inventario
 - Panel de alertas y notificaciones
 
 ### Activos Fijos — Listado
-Tabla paginada con filtros por búsqueda de texto (NIA/descripción), categoría, unidad y estado. Acciones por fila: ver detalle y editar (editar solo para Admin/Operador). **Pendiente: conectar botón Editar por fila.**
+Tabla paginada con filtros por búsqueda de texto (NIA/descripción), categoría, unidad y estado. Acciones por fila: ver detalle y editar (editar solo para Admin/Operador).
 
 **Estados posibles de un activo:**
 - `Activo` — verde
@@ -97,7 +97,7 @@ Ficha completa del activo con 7 pestañas:
 | Depreciación | Tabla anual con depreciación del período, acumulada, vida útil restante y revalúo |
 | Código QR | Código QR del activo con botón de impresión de etiqueta |
 
-Desde el encabezado se puede generar actas: **ARAF** (Alta), **AIAF** (Inventario), **ATAF** (Transferencia), **ABAF** (Baja), **ADAF** (Descargo). **Pendiente: conectar dropdown Generar Acta y botón Editar.**
+Desde el encabezado se puede generar actas: **ARAF** (Alta), **AIAF** (Inventario), **ATAF** (Transferencia), **ABAF** (Baja), **ADAF** (Descargo).
 
 ### Activos Fijos — Formulario de Registro/Edición
 Formulario en dos columnas con los campos:
@@ -109,8 +109,8 @@ Formulario en dos columnas con los campos:
 - Foto del activo (upload con vista previa)
 - Documentos adjuntos (requeridos si el costo supera Bs. 50.000)
 
-### Materiales de Control — Listado y Detalle
-Similar a Activos Fijos pero para bienes de menor valor que no se deprecian. Misma estructura de tabla y detalle. **Pendiente: agregar botón Registrar Nuevo Material y conectar botón Editar.**
+### Materiales de Control — Listado, Detalle y Formulario
+Similar a Activos Fijos pero para bienes de menor valor que no se deprecian. Incluye listado, ficha de detalle (6 pestañas, sin Depreciación) y formulario de registro/edición con categorías Grupo 20.
 
 ### Procesos Administrativos — Listado
 Tabla de procesos con filtros por número, tipo, estado, unidad, rango de fechas y usuario creador.
@@ -118,13 +118,13 @@ Tabla de procesos con filtros por número, tipo, estado, unidad, rango de fechas
 **Estados:** `Pendiente` (amarillo), `Procesado` (azul), `Cerrado` (verde)
 
 ### Procesos Administrativos — Detalle
-Vista del proceso con información general, lista de activos involucrados y línea de tiempo de estados. **Pendiente: conectar botón Generar Acta.**
+Vista del proceso con información general, lista de activos involucrados, documentos adjuntos y línea de tiempo de estados. Botón Generar Acta con dropdown de tipos. Modal inline para Agregar Bienes con buscador y selección múltiple.
 
 ### Baja de Activos
 Formulario con selección de bienes por checkboxes, tipo y motivo de baja, documentación de respaldo y resumen. Genera acta ABAF o ABMC según el tipo. Incluye modal de confirmación destructivo.
 
 ### Inventarios — Sesiones
-Listado de sesiones de inventario con estado y progreso. **Pendiente: conectar botón Nueva Sesión de Inventario.**
+Listado de sesiones de inventario con estado y progreso.
 
 ### Inventarios — Escaneo QR
 Pantalla optimizada para dispositivos móviles/tablets con visor de cámara, barra de progreso y lista de escaneos recientes.
@@ -139,7 +139,7 @@ Tabla de asientos generados por depreciación, revalúos y bajas. Filas expandib
 Listado de actas generadas con filtros y vista previa en formato A4.
 
 ### Reportes — Menú
-Grid de tarjetas agrupadas en 3 categorías: Inventario y Valoración, Movimientos y Estado, Institucionales y Normativos. Acceso rápido a Estadísticas. **Pendiente: pasar tipo de reporte seleccionado a ReportView.**
+Grid de tarjetas agrupadas en 3 categorías: Inventario y Valoración, Movimientos y Estado, Institucionales y Normativos. Cada tarjeta pasa el tipo de reporte seleccionado a ReportView. Acceso rápido a Estadísticas.
 
 ### Reportes — Vista de Reporte
 Filtros colapsables + tabla paginada con fila de totales + botones Exportar Excel/PDF.
@@ -256,6 +256,7 @@ src/
         ├── FixedAssetsList.vue      # P-02 Listado Activos Fijos
         ├── FixedAssetDetail.vue     # P-03 Ficha Activo Fijo
         ├── FixedAssetForm.vue       # P-04 Formulario Activo Fijo
+        ├── ControlMaterialForm.vue  # P-05 Formulario Material de Control
         ├── ControlMaterialsList.vue # P-06 Listado Materiales de Control
         ├── ControlMaterialDetail.vue# P-07 Ficha Material de Control
         ├── ProcessesList.vue        # P-10 Listado Procesos
@@ -299,19 +300,4 @@ src/
 
 ## Pendientes / Gaps de navegación
 
-Estas pantallas **existen** pero tienen botones sin conectar a navegación:
-
-| Componente | Botón / Acción | Corrección requerida |
-|---|---|---|
-| `FixedAssetsList.vue` | Ícono Editar por fila | Emitir `edit-asset(id)` → navegar a `asset-form` |
-| `FixedAssetDetail.vue` | Botón Editar en encabezado | Emitir `edit-asset(id)` → navegar a `asset-form` |
-| `FixedAssetDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
-| `ControlMaterialsList.vue` | Botón Registrar Nuevo Material | Agregar botón + pantalla P-05 o reutilizar `FixedAssetForm` |
-| `ControlMaterialDetail.vue` | Botón Editar en encabezado | Emitir evento → navegar a formulario de material |
-| `ControlMaterialDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
-| `DashboardContent.vue` | Acción Rápida “Registrar Activo” | Emitir evento → navegar a `asset-form` |
-| `DashboardContent.vue` | Acción Rápida “Nuevo Proceso” | Emitir evento → navegar a `new-process` |
-| `DashboardContent.vue` | Acción Rápida “Iniciar Inventario” | Emitir evento → navegar a `inventory-sessions` |
-| `InventorySessionsList.vue` | Botón Nueva Sesión de Inventario | Emitir evento → flujo de creación |
-| `ProcessDetail.vue` | Botón Generar Acta | Navegar a `acta-preview` |
-| `ReportsMenu.vue` | Tarjetas de reporte | Pasar prop `reportType` a `ReportView` |
+Todos los gaps de navegación han sido resueltos. El prototipo está completamente conectado.

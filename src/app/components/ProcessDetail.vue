@@ -40,14 +40,38 @@
       <!-- Action buttons -->
       <div class="flex items-center gap-3 pt-4 border-t-2 border-gray-300">
         <template v-if="canEdit && process.estado !== 'Cerrado'">
-          <button class="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors">
+          <!-- Agregar Bienes -->
+          <button
+            @click="showAddBienesModal = true"
+            class="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors"
+          >
             <Plus class="w-4 h-4" />
             <span>Agregar Bienes</span>
           </button>
-          <button class="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors">
-            <FileText class="w-4 h-4" />
-            <span>Generar Acta</span>
-          </button>
+
+          <!-- Generar Acta dropdown -->
+          <div class="relative">
+            <button
+              @click="showActaDropdown = !showActaDropdown"
+              class="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors"
+            >
+              <FileText class="w-4 h-4" />
+              <span>Generar Acta</span>
+              <ChevronDown class="w-4 h-4" />
+            </button>
+            <div
+              v-if="showActaDropdown"
+              class="absolute left-0 mt-2 w-52 bg-white border-2 border-gray-300 rounded shadow-lg z-10"
+            >
+              <button @click="emit('generate-acta', 'ARAF'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ARAF (Alta AF)</button>
+              <button @click="emit('generate-acta', 'ATAF'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ATAF (Transferencia AF)</button>
+              <button @click="emit('generate-acta', 'ABAF'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ABAF (Baja AF)</button>
+              <button @click="emit('generate-acta', 'ARMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ARMC (Alta MC)</button>
+              <button @click="emit('generate-acta', 'ATMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ATMC (Transferencia MC)</button>
+              <button @click="emit('generate-acta', 'ABMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ABMC (Baja MC)</button>
+            </div>
+          </div>
+
           <button
             @click="showCloseConfirm = true"
             class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
@@ -174,6 +198,81 @@
       </div>
     </div>
 
+    <!-- Modal: Agregar Bienes -->
+    <Teleport to="body">
+      <div v-if="showAddBienesModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg w-full max-w-3xl mx-4 border-2 border-gray-300 flex flex-col max-h-[80vh]">
+          <!-- Cabecera del modal -->
+          <div class="px-6 py-4 border-b-2 border-gray-300 bg-gray-50 flex items-center justify-between">
+            <h3 class="text-lg text-gray-900">Agregar Bienes al Proceso</h3>
+            <button @click="showAddBienesModal = false" class="p-1 hover:bg-gray-200 rounded">
+              <X class="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+          <!-- Buscador -->
+          <div class="px-6 py-3 border-b border-gray-200">
+            <div class="relative">
+              <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+              <input
+                v-model="bienSearch"
+                type="text"
+                placeholder="Buscar por NIA/NIM o descripción..."
+                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded text-sm"
+              />
+            </div>
+          </div>
+          <!-- Tabla de bienes -->
+          <div class="overflow-y-auto flex-1">
+            <table class="w-full">
+              <thead class="bg-gray-100 border-b-2 border-gray-300 sticky top-0">
+                <tr>
+                  <th class="px-4 py-3 w-10">
+                    <input type="checkbox" :checked="allBienesSelected" @change="toggleAllBienes" class="w-4 h-4" />
+                  </th>
+                  <th class="px-4 py-3 text-left text-xs text-gray-700">NIA / NIM</th>
+                  <th class="px-4 py-3 text-left text-xs text-gray-700">Descripción</th>
+                  <th class="px-4 py-3 text-left text-xs text-gray-700">Unidad</th>
+                  <th class="px-4 py-3 text-left text-xs text-gray-700">Responsable</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+                <tr
+                  v-for="bien in filteredBienesModal"
+                  :key="bien.id"
+                  :class="['hover:bg-gray-50 cursor-pointer', bien.selected ? 'bg-blue-50' : '']"
+                  @click="toggleBienModal(bien.id)"
+                >
+                  <td class="px-4 py-3">
+                    <input type="checkbox" :checked="bien.selected" @click.stop="toggleBienModal(bien.id)" class="w-4 h-4" />
+                  </td>
+                  <td class="px-4 py-3 text-sm text-gray-900 font-mono">{{ bien.niaNim }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-900">{{ bien.descripcion }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-700">{{ bien.unidad }}</td>
+                  <td class="px-4 py-3 text-sm text-gray-700">{{ bien.responsable }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Pie del modal -->
+          <div class="px-6 py-4 border-t-2 border-gray-300 flex items-center justify-between">
+            <span class="text-sm text-gray-600">{{ selectedBienesCount }} bien{{ selectedBienesCount !== 1 ? 'es' : '' }} seleccionado{{ selectedBienesCount !== 1 ? 's' : '' }}</span>
+            <div class="flex items-center gap-3">
+              <button @click="showAddBienesModal = false" class="px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors text-sm">
+                Cancelar
+              </button>
+              <button
+                @click="handleAddBienes"
+                :disabled="selectedBienesCount === 0"
+                class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Agregar Seleccionados
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Teleport>
+
     <!-- Modal de confirmación de cierre -->
     <Teleport to="body">
       <div v-if="showCloseConfirm" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -220,15 +319,59 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { ArrowLeft, Plus, FileText, Upload, Download, Trash2, AlertTriangle, CheckCircle } from 'lucide-vue-next'
+import { ArrowLeft, Plus, FileText, ChevronDown, Upload, Download, Trash2, AlertTriangle, CheckCircle, X, Search } from 'lucide-vue-next'
 import type { UserRole } from '../types'
 
 type EstadoProceso = 'Pendiente' | 'Procesado' | 'Cerrado'
 
 const props = defineProps<{ userRole: UserRole; processId: string | null }>()
-const emit = defineEmits<{ back: [] }>()
+const emit = defineEmits<{ back: []; 'generate-acta': [tipo: string] }>()
 
-const showCloseConfirm = ref(false)
+const showCloseConfirm  = ref(false)
+const showActaDropdown  = ref(false)
+const showAddBienesModal = ref(false)
+const bienSearch         = ref('')
+
+interface BienModal {
+  id: string; niaNim: string; descripcion: string; unidad: string; responsable: string; selected: boolean
+}
+
+const bienesDisponibles = ref<BienModal[]>([
+  { id: 'b1', niaNim: 'AF-2024-0003', descripcion: 'Laptop Lenovo ThinkPad E14',        unidad: 'Depto. de Sistemas',        responsable: 'Ing. Carlos Mamani',  selected: false },
+  { id: 'b2', niaNim: 'AF-2024-0004', descripcion: 'Proyector Epson EB-X51',             unidad: 'Facultad de Ingeniería',     responsable: 'Lic. María Flores',   selected: false },
+  { id: 'b3', niaNim: 'AF-2023-0200', descripcion: 'Impresora HP LaserJet Pro M404',     unidad: 'Administración Central',     responsable: 'Lic. Roberto Vargas', selected: false },
+  { id: 'b4', niaNim: 'AF-2022-0150', descripcion: 'Escritorio de Madera 4 cajones',     unidad: 'Rectorado',                  responsable: 'Dr. Juan Quispe',     selected: false },
+  { id: 'b5', niaNim: 'NIM-2024-0010', descripcion: 'Silla de Oficina con ruedas',       unidad: 'Administración Central',     responsable: 'Lic. Roberto Vargas', selected: false },
+  { id: 'b6', niaNim: 'NIM-2023-0089', descripcion: 'Archivador Metálico 4 gavetas',     unidad: 'Depto. de Sistemas',        responsable: 'Ing. Carlos Mamani',  selected: false },
+])
+
+const filteredBienesModal = computed(() => {
+  const q = bienSearch.value.toLowerCase()
+  if (!q) return bienesDisponibles.value
+  return bienesDisponibles.value.filter(
+    (b) => b.niaNim.toLowerCase().includes(q) || b.descripcion.toLowerCase().includes(q)
+  )
+})
+
+const selectedBienesCount = computed(() => bienesDisponibles.value.filter((b) => b.selected).length)
+const allBienesSelected   = computed(() =>
+  filteredBienesModal.value.length > 0 && filteredBienesModal.value.every((b) => b.selected)
+)
+
+function toggleBienModal(id: string) {
+  const b = bienesDisponibles.value.find((b) => b.id === id)
+  if (b) b.selected = !b.selected
+}
+
+function toggleAllBienes() {
+  const next = !allBienesSelected.value
+  filteredBienesModal.value.forEach((b) => { b.selected = next })
+}
+
+function handleAddBienes() {
+  showAddBienesModal.value = false
+  bienSearch.value = ''
+}
 
 const canEdit   = computed(() => props.userRole === 'Administrador' || props.userRole === 'Operador')
 const canReopen = computed(() => props.userRole === 'Administrador')

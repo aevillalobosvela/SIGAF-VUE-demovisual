@@ -54,6 +54,12 @@
         @edit-material="handleEditMaterial"
         @generate-acta="handleGenerateActa"
       />
+      <ControlMaterialForm
+        v-else-if="currentScreen === 'control-material-form'"
+        :userRole="userRole"
+        :materialId="selectedMaterialId"
+        @cancel="handleNavigate('control-materials')"
+      />
 
       <!-- Procesos -->
       <ProcessesList
@@ -67,6 +73,7 @@
         :userRole="userRole"
         :processId="selectedProcessId"
         @back="handleNavigate('processes')"
+        @generate-acta="handleGenerateActa"
       />
       <NewProcessForm
         v-else-if="currentScreen === 'new-process'"
@@ -160,10 +167,12 @@
         v-else-if="currentScreen === 'reports'"
         :userRole="userRole"
         @navigate="handleNavigate"
+        @navigate-report="handleNavigateReport"
       />
       <ReportView
         v-else-if="currentScreen === 'report-view'"
         :userRole="userRole"
+        :reportType="selectedReportType"
         @back="handleNavigate('reports')"
       />
       <ReportCharts
@@ -249,6 +258,7 @@ import IdentifierRangesList from './components/IdentifierRangesList.vue'
 import IdentifierRangeForm from './components/IdentifierRangeForm.vue'
 import IdentifierRangeTransfer from './components/IdentifierRangeTransfer.vue'
 import AccountingEntries from './components/AccountingEntries.vue'
+import ControlMaterialForm from './components/ControlMaterialForm.vue'
 
 // ── Estado de navegación ──────────────────────────────────────────────────────
 const currentScreen = ref<Screen>('login')
@@ -262,6 +272,7 @@ const selectedActaId  = ref<string | null>(null)
 const selectedActaTipo = ref<string>('')
 const selectedUserId = ref<string | null>(null)
 const selectedRangeId = ref<string | null>(null)
+const selectedReportType = ref<string>('')
 
 // ── Handlers ──────────────────────────────────────────────────────────────────
 function handleLogin(role: UserRole) {
@@ -300,12 +311,12 @@ function handleEditAsset(assetId: string) {
 
 function handleNewMaterial() {
   selectedMaterialId.value = null
-  currentScreen.value = 'control-materials'
+  currentScreen.value = 'control-material-form'
 }
 
 function handleEditMaterial(materialId: string) {
   selectedMaterialId.value = materialId
-  currentScreen.value = 'control-materials'
+  currentScreen.value = 'control-material-form'
 }
 
 function handleViewMaterial(materialId: string) {
@@ -350,5 +361,10 @@ function handleNewUser() {
 function handleTransferRange(rangeId: string) {
   selectedRangeId.value = rangeId
   currentScreen.value = 'identifier-range-transfer'
+}
+
+function handleNavigateReport(screen: Screen, reportType: string) {
+  selectedReportType.value = reportType
+  currentScreen.value = screen
 }
 </script>

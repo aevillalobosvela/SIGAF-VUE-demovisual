@@ -79,6 +79,7 @@ const breadcrumbMap: Record<string, string[]> = {
   'asset-form': ['Inicio', 'Activos', 'Activos Fijos', 'Formulario'],
   'control-materials': ['Inicio', 'Activos', 'Materiales de Control'],
   'material-detail': ['Inicio', 'Activos', 'Materiales de Control', 'Detalle'],
+  'control-material-form': ['Inicio', 'Activos', 'Materiales de Control', 'Formulario'],
   processes: ['Inicio', 'Procesos', 'Procesos Administrativos'],
   'process-detail': ['Inicio', 'Procesos', 'Procesos Administrativos', 'Detalle'],
   'new-process': ['Inicio', 'Procesos', 'Nuevo Proceso'],

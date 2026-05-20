@@ -13,7 +13,7 @@
         <button
           v-for="card in inventarioCards"
           :key="card.id"
-          @click="emit('navigate', card.screen)"
+          @click="emit('navigate-report', card.screen, card.id)"
           class="bg-white border-2 border-gray-300 rounded-lg p-5 text-left hover:border-gray-500 hover:shadow-sm transition-all"
         >
           <div class="flex items-start gap-4">
@@ -36,7 +36,7 @@
         <button
           v-for="card in movimientosCards"
           :key="card.id"
-          @click="emit('navigate', card.screen)"
+          @click="emit('navigate-report', card.screen, card.id)"
           class="bg-white border-2 border-gray-300 rounded-lg p-5 text-left hover:border-gray-500 hover:shadow-sm transition-all"
         >
           <div class="flex items-start gap-4">
@@ -59,7 +59,7 @@
         <button
           v-for="card in institucionalesCards"
           :key="card.id"
-          @click="emit('navigate', card.screen)"
+          @click="emit('navigate-report', card.screen, card.id)"
           class="bg-white border-2 border-gray-300 rounded-lg p-5 text-left hover:border-gray-500 hover:shadow-sm transition-all"
         >
           <div class="flex items-start gap-4">
@@ -116,7 +116,7 @@ import {
 import type { UserRole, Screen } from '../types'
 
 defineProps<{ userRole: UserRole }>()
-const emit = defineEmits<{ navigate: [screen: Screen] }>()
+const emit = defineEmits<{ navigate: [screen: Screen]; 'navigate-report': [screen: Screen, reportType: string] }>()
 
 const inventarioCards = [
   {

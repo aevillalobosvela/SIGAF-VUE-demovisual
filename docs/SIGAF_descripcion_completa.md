@@ -221,25 +221,11 @@ El sistema usa un **layout de aplicación web de escritorio** (mínimo 1280px) c
 
 | ID | Pantalla | Estado |
 |---|---|---|
-| P-05 | Formulario Material de Control | Sin pantalla — no existe botón activo que la requiera aún |
+| P-05 | Formulario Material de Control | ✅ `ControlMaterialForm.vue` |
 
 ### Gaps de navegación pendientes de corregir
 
-Estas pantallas **existen** pero tienen botones sin conectar:
-
-| Componente | Botón / Acción | Pendiente |
-|---|---|---|
-| `FixedAssetsList.vue` | Ícono Editar por fila | Debe navegar a `asset-form` con el ID del activo |
-| `FixedAssetDetail.vue` | Botón Editar en encabezado | Debe navegar a `asset-form` con el ID del activo |
-| `ControlMaterialsList.vue` | Botón Registrar Nuevo Material | Falta el botón y la pantalla P-05 |
-| `ControlMaterialDetail.vue` | Botón Editar en encabezado | Debe navegar a formulario de material |
-| `DashboardContent.vue` | Acciones Rápidas (3 botones) | Deben navegar a `asset-form`, `new-process`, `inventory-sessions` |
-| `InventorySessionsList.vue` | Botón Nueva Sesión de Inventario | Debe emitir evento y navegar |
-| `ProcessDetail.vue` | Botón Generar Acta | Debe navegar a `acta-preview` |
-| `ProcessDetail.vue` | Botón Agregar Bienes | Sin flujo definido |
-| `FixedAssetDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
-| `ControlMaterialDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
-| `ReportsMenu.vue` | Tarjetas de reporte | Deben pasar el tipo de reporte seleccionado a `ReportView` |
+Todos los gaps de navegación han sido resueltos. El prototipo no tiene botones sin conectar.
 
 ---
 

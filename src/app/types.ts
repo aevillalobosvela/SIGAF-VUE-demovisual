@@ -33,3 +33,4 @@ export type Screen =
   | 'identifier-range-form'
   | 'identifier-range-transfer'
   | 'accounting-entries'
+  | 'control-material-form'
