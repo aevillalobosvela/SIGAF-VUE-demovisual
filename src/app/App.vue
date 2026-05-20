@@ -12,6 +12,7 @@
       <DashboardContent
         v-if="currentScreen === 'dashboard'"
         :userRole="userRole"
+        @navigate="handleNavigate"
       />
 
       <!-- Activos Fijos -->
@@ -20,6 +21,7 @@
         :userRole="userRole"
         @view-asset="handleViewAsset"
         @new-asset="handleNewAsset"
+        @edit-asset="handleEditAsset"
       />
       <FixedAssetDetail
         v-else-if="currentScreen === 'asset-detail'"
@@ -39,6 +41,8 @@
         v-else-if="currentScreen === 'control-materials'"
         :userRole="userRole"
         @view-material="handleViewMaterial"
+        @new-material="handleNewMaterial"
+        @edit-material="handleEditMaterial"
       />
       <ControlMaterialDetail
         v-else-if="currentScreen === 'material-detail'"
@@ -83,6 +87,7 @@
         v-else-if="currentScreen === 'inventory-sessions'"
         :userRole="userRole"
         @view-inventory="handleViewInventory"
+        @new-inventory="handleNavigate('inventory-scan')"
       />
       <InventoryScanScreen
         v-else-if="currentScreen === 'inventory-scan'"
@@ -286,6 +291,16 @@ function handleNewAsset() {
 function handleEditAsset(assetId: string) {
   selectedAssetId.value = assetId
   currentScreen.value = 'asset-form'
+}
+
+function handleNewMaterial() {
+  selectedMaterialId.value = null
+  currentScreen.value = 'control-materials'
+}
+
+function handleEditMaterial(materialId: string) {
+  selectedMaterialId.value = materialId
+  currentScreen.value = 'control-materials'
 }
 
 function handleViewMaterial(materialId: string) {

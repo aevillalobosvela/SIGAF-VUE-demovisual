@@ -5,6 +5,7 @@
       <h1 class="text-2xl text-gray-900">Materiales de Control</h1>
       <button
         v-if="canEdit"
+        @click="emit('new-material')"
         class="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors"
       >
         <Plus class="w-5 h-5" />
@@ -108,6 +109,7 @@
                   </button>
                   <button
                     v-if="canEdit"
+                    @click="emit('edit-material', material.id)"
                     class="p-1 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
                     title="Editar"
                   >
@@ -180,7 +182,7 @@ interface Material {
 }
 
 const props = defineProps<{ userRole: UserRole }>()
-const emit = defineEmits<{ 'view-material': [id: string] }>()
+const emit = defineEmits<{ 'view-material': [id: string]; 'new-material': []; 'edit-material': [id: string] }>()
 
 const searchText   = ref('')
 const selectedGroup  = ref('')

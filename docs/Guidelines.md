@@ -45,25 +45,25 @@ Principal
 Activos
   ├── Activos Fijos
   ├── Materiales de Control
-  └── Inventarios
+  ├── Inventarios
+  └── Rangos NIA / NIM
 
 Procesos
   ├── Procesos Administrativos
   ├── Transferencias
   ├── Cambio de Responsable
-  └── Bajas (sin pantalla aún)
+  └── Bajas
 
 Reportes
-  ├── Reportes (sin pantalla aún)
+  ├── Reportes
   ├── Actas
   └── Depreciación
 
-Configuración
-  ├── Usuarios (sin pantalla aún)
-  └── Configuración (sin pantalla aún)
+Configuración  (solo Administrador)
+  ├── Usuarios
+  ├── Parámetros del Sistema
+  └── Auditoría
 ```
-
-Los ítems marcados como "sin pantalla aún" están visibles en el menú pero no navegan a ningún lado todavía.
 
 ---
 
@@ -72,11 +72,11 @@ Los ítems marcados como "sin pantalla aún" están visibles en el menú pero no
 ### Dashboard
 Pantalla principal con:
 - 4 tarjetas de resumen: Total Activos Fijos, Total Materiales de Control, Procesos Pendientes, Procesos Cerrados este Mes
-- Acciones rápidas (visibles solo para Administrador y Operador)
+- Acciones rápidas (visibles solo para Administrador y Operador) — **pendiente: conectar navegación**
 - Panel de alertas y notificaciones
 
 ### Activos Fijos — Listado
-Tabla paginada con filtros por búsqueda de texto (NIA/descripción), categoría, unidad y estado. Acciones por fila: ver detalle y editar (editar solo para Admin/Operador).
+Tabla paginada con filtros por búsqueda de texto (NIA/descripción), categoría, unidad y estado. Acciones por fila: ver detalle y editar (editar solo para Admin/Operador). **Pendiente: conectar botón Editar por fila.**
 
 **Estados posibles de un activo:**
 - `Activo` — verde
@@ -97,7 +97,7 @@ Ficha completa del activo con 7 pestañas:
 | Depreciación | Tabla anual con depreciación del período, acumulada, vida útil restante y revalúo |
 | Código QR | Código QR del activo con botón de impresión de etiqueta |
 
-Desde el encabezado se puede generar actas: **ARAF** (Alta), **AIAF** (Inventario), **ATAF** (Transferencia), **ABAF** (Baja), **ADAF** (Descargo).
+Desde el encabezado se puede generar actas: **ARAF** (Alta), **AIAF** (Inventario), **ATAF** (Transferencia), **ABAF** (Baja), **ADAF** (Descargo). **Pendiente: conectar dropdown Generar Acta y botón Editar.**
 
 ### Activos Fijos — Formulario de Registro/Edición
 Formulario en dos columnas con los campos:
@@ -110,7 +110,7 @@ Formulario en dos columnas con los campos:
 - Documentos adjuntos (requeridos si el costo supera Bs. 50.000)
 
 ### Materiales de Control — Listado y Detalle
-Similar a Activos Fijos pero para bienes de menor valor que no se deprecian. Misma estructura de tabla y detalle.
+Similar a Activos Fijos pero para bienes de menor valor que no se deprecian. Misma estructura de tabla y detalle. **Pendiente: agregar botón Registrar Nuevo Material y conectar botón Editar.**
 
 ### Procesos Administrativos — Listado
 Tabla de procesos con filtros por número, tipo, estado, unidad, rango de fechas y usuario creador.
@@ -118,19 +118,46 @@ Tabla de procesos con filtros por número, tipo, estado, unidad, rango de fechas
 **Estados:** `Pendiente` (amarillo), `Procesado` (azul), `Cerrado` (verde)
 
 ### Procesos Administrativos — Detalle
-Vista del proceso con información general, lista de activos involucrados y línea de tiempo de estados.
+Vista del proceso con información general, lista de activos involucrados y línea de tiempo de estados. **Pendiente: conectar botón Generar Acta.**
+
+### Baja de Activos
+Formulario con selección de bienes por checkboxes, tipo y motivo de baja, documentación de respaldo y resumen. Genera acta ABAF o ABMC según el tipo. Incluye modal de confirmación destructivo.
 
 ### Inventarios — Sesiones
-Listado de sesiones de inventario con estado y progreso.
+Listado de sesiones de inventario con estado y progreso. **Pendiente: conectar botón Nueva Sesión de Inventario.**
 
 ### Inventarios — Escaneo QR
 Pantalla optimizada para dispositivos móviles/tablets con visor de cámara, barra de progreso y lista de escaneos recientes.
 
 ### Depreciación
-Panel hub con 4 acciones: Ejecutar Cálculo, Ver Registros, Registrar Revalúo, Ver Asientos Contables.
+Panel hub con 4 acciones: Ejecutar Cálculo, Ver Registros, Registrar Revalúo, Ver Asientos Contables. Los últimos tres navegan a sus respectivas pantallas.
+
+### Asientos Contables
+Tabla de asientos generados por depreciación, revalúos y bajas. Filas expandibles con líneas Debe/Haber por cuenta contable. Filtros por gestión, mes, tipo y estado.
 
 ### Actas — Listado y Vista Previa
 Listado de actas generadas con filtros y vista previa en formato A4.
+
+### Reportes — Menú
+Grid de tarjetas agrupadas en 3 categorías: Inventario y Valoración, Movimientos y Estado, Institucionales y Normativos. Acceso rápido a Estadísticas. **Pendiente: pasar tipo de reporte seleccionado a ReportView.**
+
+### Reportes — Vista de Reporte
+Filtros colapsables + tabla paginada con fila de totales + botones Exportar Excel/PDF.
+
+### Reportes — Estadísticas y Gráficas
+4 gráficas SVG: línea (valor por gestión), barras horizontales (por categoría), donut (por fuente de financiamiento), barras verticales (depreciación por gestión).
+
+### Rangos NIA / NIM
+Tabla de rangos asignados con barra de consumo (gris → amarilla al 70% → roja al 90%). Formulario de asignación y formulario de transferencia entre funcionarios.
+
+### Gestión de Usuarios
+Tabla con filtros por nombre, rol y estado. Toggle activar/desactivar por fila. Formulario con perfiles granulares (Elaboración, Proceso, Firma-Cierre) que aparecen solo para rol Operador.
+
+### Parámetros del Sistema
+7 tabs: Unidades (con jerarquía), Secciones, Estructuras Programáticas, Cuentas Contables, Clasificadores Internos, UFV, Responsables.
+
+### Registro de Auditoría
+Tabla de eventos del sistema con filtros. Filas expandibles con detalle del cambio (valores antes/después). Solo lectura.
 
 ---
 
@@ -213,37 +240,49 @@ const canEdit = computed(() =>
 
 ```
 src/
-├── main.ts                     # Punto de entrada
-├── style.css                   # Tailwind v4 + tema shadcn
+├── main.ts                          # Punto de entrada
+├── style.css                        # Tailwind v4 + tema shadcn
 ├── lib/
-│   └── utils.ts                # Helper cn() para clases Tailwind
+│   └── utils.ts                     # Helper cn() para clases Tailwind
 └── app/
-    ├── types.ts                # Tipos compartidos: UserRole, Screen
-    ├── App.vue                 # Controlador de navegación y estado global
+    ├── types.ts                     # Tipos compartidos: UserRole, Screen
+    ├── App.vue                      # Controlador de navegación y estado global
     └── components/
-        ├── AppLayout.vue       # Layout principal (sidebar + topbar)
-        ├── Sidebar.vue         # Menú lateral con control de roles
-        ├── LoginScreen.vue     # Pantalla de login
-        ├── FieldDisplay.vue    # Componente reutilizable para campos de solo lectura
-        ├── DashboardContent.vue
-        ├── FixedAssetsList.vue
-        ├── FixedAssetDetail.vue
-        ├── FixedAssetForm.vue
-        ├── ControlMaterialsList.vue
-        ├── ControlMaterialDetail.vue
-        ├── ProcessesList.vue
-        ├── ProcessDetail.vue
-        ├── NewProcessForm.vue
-        ├── TransferForm.vue
-        ├── ResponsibleChangeForm.vue
-        ├── InventorySessionsList.vue
-        ├── InventoryScanScreen.vue
-        ├── InventoryResult.vue
-        ├── DepreciationPanel.vue
-        ├── DepreciationRecords.vue
-        ├── RevaluationForm.vue
-        ├── ActasList.vue
-        └── ActaPreview.vue
+        ├── AppLayout.vue            # Layout principal (sidebar + topbar)
+        ├── Sidebar.vue              # Menú lateral con control de roles
+        ├── LoginScreen.vue          # P-00 Login
+        ├── FieldDisplay.vue         # Componente reutilizable para campos de solo lectura
+        ├── DashboardContent.vue     # P-01 Dashboard
+        ├── FixedAssetsList.vue      # P-02 Listado Activos Fijos
+        ├── FixedAssetDetail.vue     # P-03 Ficha Activo Fijo
+        ├── FixedAssetForm.vue       # P-04 Formulario Activo Fijo
+        ├── ControlMaterialsList.vue # P-06 Listado Materiales de Control
+        ├── ControlMaterialDetail.vue# P-07 Ficha Material de Control
+        ├── ProcessesList.vue        # P-10 Listado Procesos
+        ├── ProcessDetail.vue        # P-11 Detalle Proceso
+        ├── NewProcessForm.vue       # P-12 Nuevo Proceso
+        ├── TransferForm.vue         # P-14 Transferencia
+        ├── ResponsibleChangeForm.vue# P-15 Cambio de Responsable
+        ├── AssetWriteOffForm.vue    # P-16 Baja de Activos
+        ├── InventorySessionsList.vue# P-17 Sesiones de Inventario
+        ├── InventoryScanScreen.vue  # P-18 Escaneo QR
+        ├── InventoryResult.vue      # P-19 Resultado Inventario
+        ├── DepreciationPanel.vue    # P-20 Panel Depreciación
+        ├── DepreciationRecords.vue  # P-22 Registros Depreciación
+        ├── RevaluationForm.vue      # P-23 Formulario Revalúo
+        ├── AccountingEntries.vue    # P-24 Asientos Contables
+        ├── ActasList.vue            # P-25 Listado Actas
+        ├── ActaPreview.vue          # P-26 Vista Previa Acta
+        ├── ReportsMenu.vue          # P-30 Menú de Reportes
+        ├── ReportView.vue           # P-31 Vista de Reporte
+        ├── ReportCharts.vue         # P-32 Estadísticas y Gráficas
+        ├── IdentifierRangesList.vue # P-33 Rangos NIA/NIM
+        ├── IdentifierRangeForm.vue  # P-34 Asignar Rango
+        ├── IdentifierRangeTransfer.vue # P-35 Transferir Rango
+        ├── UsersList.vue            # P-37 Gestión de Usuarios
+        ├── UserForm.vue             # P-38 Formulario de Usuario
+        ├── SystemParameters.vue     # P-39 Parámetros del Sistema
+        └── AuditLog.vue             # P-40 Registro de Auditoría
 ```
 
 ---
@@ -258,12 +297,21 @@ src/
 
 ---
 
-## Pendientes / Pantallas sin implementar
+## Pendientes / Gaps de navegación
 
-| Módulo | Estado |
-|---|---|
-| Bajas de Activos | Sin pantalla |
-| Reportes generales | Sin pantalla |
-| Gestión de Usuarios | Sin pantalla |
-| Configuración del sistema | Sin pantalla |
-| Asientos Contables (desde Depreciación) | Sin pantalla |
+Estas pantallas **existen** pero tienen botones sin conectar a navegación:
+
+| Componente | Botón / Acción | Corrección requerida |
+|---|---|---|
+| `FixedAssetsList.vue` | Ícono Editar por fila | Emitir `edit-asset(id)` → navegar a `asset-form` |
+| `FixedAssetDetail.vue` | Botón Editar en encabezado | Emitir `edit-asset(id)` → navegar a `asset-form` |
+| `FixedAssetDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
+| `ControlMaterialsList.vue` | Botón Registrar Nuevo Material | Agregar botón + pantalla P-05 o reutilizar `FixedAssetForm` |
+| `ControlMaterialDetail.vue` | Botón Editar en encabezado | Emitir evento → navegar a formulario de material |
+| `ControlMaterialDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
+| `DashboardContent.vue` | Acción Rápida “Registrar Activo” | Emitir evento → navegar a `asset-form` |
+| `DashboardContent.vue` | Acción Rápida “Nuevo Proceso” | Emitir evento → navegar a `new-process` |
+| `DashboardContent.vue` | Acción Rápida “Iniciar Inventario” | Emitir evento → navegar a `inventory-sessions` |
+| `InventorySessionsList.vue` | Botón Nueva Sesión de Inventario | Emitir evento → flujo de creación |
+| `ProcessDetail.vue` | Botón Generar Acta | Navegar a `acta-preview` |
+| `ReportsMenu.vue` | Tarjetas de reporte | Pasar prop `reportType` a `ReportView` |

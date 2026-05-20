@@ -31,6 +31,7 @@
         <button
           v-for="(action, idx) in visibleActions"
           :key="idx"
+          @click="emit('navigate', action.screen)"
           class="flex items-center gap-2 px-4 py-3 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors"
         >
           <component :is="action.icon" class="w-5 h-5" />
@@ -85,7 +86,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Package, ClipboardList, Clock, CheckCircle, Plus, FileText, Clipboard, AlertCircle } from 'lucide-vue-next'
-import type { UserRole } from '../types'
+import type { UserRole, Screen } from '../types'
 
 const props = defineProps<{ userRole: UserRole }>()
 
@@ -97,9 +98,9 @@ const stats = [
 ]
 
 const quickActions = [
-  { label: 'Registrar Activo',  icon: Plus,      roles: ['Administrador', 'Operador'] as UserRole[] },
-  { label: 'Nuevo Proceso',     icon: FileText,  roles: ['Administrador', 'Operador'] as UserRole[] },
-  { label: 'Iniciar Inventario',icon: Clipboard, roles: ['Administrador', 'Operador'] as UserRole[] },
+  { label: 'Registrar Activo',   icon: Plus,      roles: ['Administrador', 'Operador'] as UserRole[], screen: 'asset-form' as Screen },
+  { label: 'Nuevo Proceso',      icon: FileText,  roles: ['Administrador', 'Operador'] as UserRole[], screen: 'new-process' as Screen },
+  { label: 'Iniciar Inventario', icon: Clipboard, roles: ['Administrador', 'Operador'] as UserRole[], screen: 'inventory-sessions' as Screen },
 ]
 
 const alerts = [
@@ -107,6 +108,10 @@ const alerts = [
   { title: 'Inventario asignado',                description: 'Inventario de Edificio Central - Vence en 5 días', type: 'info'    },
   { title: 'Proceso de baja cerrado',            description: 'BAJA-2024-0045 ha sido completado',         type: 'success' },
 ]
+
+const emit = defineEmits<{
+  navigate: [screen: Screen]
+}>()
 
 const visibleActions = computed(() =>
   quickActions.filter((a) => a.roles.includes(props.userRole)),

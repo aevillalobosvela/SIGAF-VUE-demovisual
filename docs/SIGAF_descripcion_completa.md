@@ -180,7 +180,7 @@ El sistema usa un **layout de aplicación web de escritorio** (mínimo 1280px) c
 - **Topbar superior fijo**: breadcrumb a la izquierda · nombre de usuario + badge de rol + notificaciones + cerrar sesión a la derecha.
 - **Área de contenido central**: scrollable, con encabezado de página (título + botón de acción principal).
 
-### Pantallas implementadas (20 de 41)
+### Pantallas implementadas (35 de 41)
 
 | Pantalla | Componente Vue | Estado |
 |---|---|---|
@@ -196,26 +196,50 @@ El sistema usa un **layout de aplicación web de escritorio** (mínimo 1280px) c
 | P-12 Nuevo Proceso | `NewProcessForm.vue` | ✅ |
 | P-14 Transferencia | `TransferForm.vue` | ✅ |
 | P-15 Cambio de Responsable | `ResponsibleChangeForm.vue` | ✅ |
+| P-16 Baja de Activos | `AssetWriteOffForm.vue` | ✅ |
 | P-17 Sesiones de Inventario | `InventorySessionsList.vue` | ✅ |
 | P-18 Escaneo QR | `InventoryScanScreen.vue` | ✅ |
 | P-19 Resultado Inventario | `InventoryResult.vue` | ✅ |
 | P-20 Panel Depreciación | `DepreciationPanel.vue` | ✅ |
 | P-22 Registros Depreciación | `DepreciationRecords.vue` | ✅ |
 | P-23 Formulario Revalúo | `RevaluationForm.vue` | ✅ |
+| P-24 Asientos Contables | `AccountingEntries.vue` | ✅ |
 | P-25 Listado Actas | `ActasList.vue` | ✅ |
 | P-26 Vista Previa Acta | `ActaPreview.vue` | ✅ |
+| P-30 Menú de Reportes | `ReportsMenu.vue` | ✅ |
+| P-31 Vista de Reporte | `ReportView.vue` | ✅ |
+| P-32 Estadísticas y Gráficas | `ReportCharts.vue` | ✅ |
+| P-33 Rangos NIA/NIM | `IdentifierRangesList.vue` | ✅ |
+| P-34 Asignar Rango | `IdentifierRangeForm.vue` | ✅ |
+| P-35 Transferir Rango | `IdentifierRangeTransfer.vue` | ✅ |
+| P-37 Gestión de Usuarios | `UsersList.vue` | ✅ |
+| P-38 Formulario de Usuario | `UserForm.vue` | ✅ |
+| P-39 Parámetros del Sistema | `SystemParameters.vue` | ✅ |
+| P-40 Registro de Auditoría | `AuditLog.vue` | ✅ |
 
-### Pantallas pendientes
+### Pantallas pendientes de implementar
 
-| Módulo | Estado |
-|---|---|
-| Bajas de Activos (P-16) | Sin pantalla |
-| Reportes generales (P-30 a P-32) | Sin pantalla |
-| Gestión de Usuarios (P-37 a P-38) | Sin pantalla |
-| Parámetros del Sistema (P-39) | Sin pantalla |
-| Registro de Auditoría (P-40) | Sin pantalla |
-| Asientos Contables (P-24) | Sin pantalla |
-| NIA/NIM (P-33 a P-35) | Sin pantalla |
+| ID | Pantalla | Estado |
+|---|---|---|
+| P-05 | Formulario Material de Control | Sin pantalla — no existe botón activo que la requiera aún |
+
+### Gaps de navegación pendientes de corregir
+
+Estas pantallas **existen** pero tienen botones sin conectar:
+
+| Componente | Botón / Acción | Pendiente |
+|---|---|---|
+| `FixedAssetsList.vue` | Ícono Editar por fila | Debe navegar a `asset-form` con el ID del activo |
+| `FixedAssetDetail.vue` | Botón Editar en encabezado | Debe navegar a `asset-form` con el ID del activo |
+| `ControlMaterialsList.vue` | Botón Registrar Nuevo Material | Falta el botón y la pantalla P-05 |
+| `ControlMaterialDetail.vue` | Botón Editar en encabezado | Debe navegar a formulario de material |
+| `DashboardContent.vue` | Acciones Rápidas (3 botones) | Deben navegar a `asset-form`, `new-process`, `inventory-sessions` |
+| `InventorySessionsList.vue` | Botón Nueva Sesión de Inventario | Debe emitir evento y navegar |
+| `ProcessDetail.vue` | Botón Generar Acta | Debe navegar a `acta-preview` |
+| `ProcessDetail.vue` | Botón Agregar Bienes | Sin flujo definido |
+| `FixedAssetDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
+| `ControlMaterialDetail.vue` | Dropdown Generar Acta (5 ítems) | Cada ítem debe navegar a `acta-preview` |
+| `ReportsMenu.vue` | Tarjetas de reporte | Deben pasar el tipo de reporte seleccionado a `ReportView` |
 
 ---
 

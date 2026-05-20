@@ -5,6 +5,7 @@
       <h1 class="text-2xl text-gray-900">Inventario Físico</h1>
       <button
         v-if="canCreate"
+        @click="emit('new-inventory')"
         class="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-800 transition-colors"
       >
         <Plus class="w-5 h-5" />
@@ -106,7 +107,7 @@ interface InventorySession {
 }
 
 const props = defineProps<{ userRole: UserRole }>()
-const emit = defineEmits<{ 'view-inventory': [id: string, tab: 'scan' | 'result'] }>()
+const emit = defineEmits<{ 'view-inventory': [id: string, tab: 'scan' | 'result']; 'new-inventory': [] }>()
 
 const canCreate = computed(() =>
   props.userRole === 'Administrador' || props.userRole === 'Operador',

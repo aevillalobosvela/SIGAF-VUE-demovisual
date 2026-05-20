@@ -104,6 +104,7 @@
                   </button>
                   <button
                     v-if="canEdit"
+                    @click="emit('edit-asset', asset.id)"
                     class="p-1 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded"
                     title="Editar"
                   >
@@ -176,7 +177,7 @@ interface Asset {
 }
 
 const props = defineProps<{ userRole: UserRole }>()
-const emit = defineEmits<{ 'view-asset': [id: string]; 'new-asset': [] }>()
+const emit = defineEmits<{ 'view-asset': [id: string]; 'new-asset': []; 'edit-asset': [id: string] }>()
 
 const searchText     = ref('')
 const selectedCategory = ref('')
