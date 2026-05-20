@@ -15,6 +15,7 @@
       <div class="flex items-center gap-2">
         <button
           v-if="canEdit"
+          @click="emit('edit-material', props.materialId ?? '')"
           class="flex items-center gap-2 px-4 py-2 border-2 border-gray-300 rounded hover:bg-gray-100 transition-colors"
         >
           <Edit class="w-4 h-4" />
@@ -32,11 +33,11 @@
             v-if="showActaDropdown"
             class="absolute right-0 mt-2 w-56 bg-white border-2 border-gray-300 rounded shadow-lg z-10"
           >
-            <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ARMC (Recepción)</button>
-            <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">AIMC (Inventario)</button>
-            <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ATMC (Transferencia)</button>
-            <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ABMC (Baja)</button>
-            <button class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ADMC (Descargo)</button>
+            <button @click="emit('generate-acta', 'ARMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ARMC (Recepción)</button>
+            <button @click="emit('generate-acta', 'AIMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">AIMC (Inventario)</button>
+            <button @click="emit('generate-acta', 'ATMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ATMC (Transferencia)</button>
+            <button @click="emit('generate-acta', 'ABMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ABMC (Baja)</button>
+            <button @click="emit('generate-acta', 'ADMC'); showActaDropdown = false" class="w-full px-4 py-2 text-left text-sm hover:bg-gray-100">ADMC (Descargo)</button>
           </div>
         </div>
       </div>
@@ -237,7 +238,7 @@ import type { UserRole } from '../types'
 type TabId = 'general' | 'location' | 'photos' | 'documents' | 'history' | 'qr'
 
 const props = defineProps<{ userRole: UserRole; materialId: string | null }>()
-const emit = defineEmits<{ back: [] }>()
+const emit = defineEmits<{ back: []; 'edit-material': [id: string]; 'generate-acta': [tipo: string] }>()
 
 const activeTab = ref<TabId>('general')
 const showActaDropdown = ref(false)

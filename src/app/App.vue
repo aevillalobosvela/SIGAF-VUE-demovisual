@@ -28,6 +28,8 @@
         :userRole="userRole"
         :assetId="selectedAssetId"
         @back="handleNavigate('fixed-assets')"
+        @edit-asset="handleEditAsset"
+        @generate-acta="handleGenerateActa"
       />
       <FixedAssetForm
         v-else-if="currentScreen === 'asset-form'"
@@ -49,6 +51,8 @@
         :userRole="userRole"
         :materialId="selectedMaterialId"
         @back="handleNavigate('control-materials')"
+        @edit-material="handleEditMaterial"
+        @generate-acta="handleGenerateActa"
       />
 
       <!-- Procesos -->
@@ -254,7 +258,8 @@ const selectedAssetId = ref<string | null>(null)
 const selectedMaterialId = ref<string | null>(null)
 const selectedProcessId = ref<string | null>(null)
 const selectedInventoryId = ref<string | null>(null)
-const selectedActaId = ref<string | null>(null)
+const selectedActaId  = ref<string | null>(null)
+const selectedActaTipo = ref<string>('')
 const selectedUserId = ref<string | null>(null)
 const selectedRangeId = ref<string | null>(null)
 
@@ -324,6 +329,11 @@ function handleViewInventory(inventoryId: string, tab: 'scan' | 'result') {
 
 function handleViewActa(actaId: string) {
   selectedActaId.value = actaId
+  currentScreen.value = 'acta-preview'
+}
+
+function handleGenerateActa(tipo: string) {
+  selectedActaTipo.value = tipo
   currentScreen.value = 'acta-preview'
 }
 
