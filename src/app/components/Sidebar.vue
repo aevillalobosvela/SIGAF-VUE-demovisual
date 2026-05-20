@@ -159,7 +159,8 @@ const menuSections: MenuSection[] = [
       {
         label: 'Reportes',
         icon: BarChart,
-        roles: ['Administrador', 'Operador', 'Consulta'],
+        roles: ['Administrador', 'Operador', 'Consulta'] as UserRole[],
+        screen: 'reports' as Screen,
       },
       {
         label: 'Actas',

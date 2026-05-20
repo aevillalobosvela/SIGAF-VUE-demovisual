@@ -146,6 +146,23 @@
         :userRole="userRole"
       />
 
+      <!-- Reportes -->
+      <ReportsMenu
+        v-else-if="currentScreen === 'reports'"
+        :userRole="userRole"
+        @navigate="handleNavigate"
+      />
+      <ReportView
+        v-else-if="currentScreen === 'report-view'"
+        :userRole="userRole"
+        @back="handleNavigate('reports')"
+      />
+      <ReportCharts
+        v-else-if="currentScreen === 'report-charts'"
+        :userRole="userRole"
+        @back="handleNavigate('reports')"
+      />
+
       <!-- Fallback -->
       <DashboardContent v-else :userRole="userRole" />
     </AppLayout>
@@ -181,6 +198,9 @@ import UsersList from './components/UsersList.vue'
 import UserForm from './components/UserForm.vue'
 import SystemParameters from './components/SystemParameters.vue'
 import AuditLog from './components/AuditLog.vue'
+import ReportsMenu from './components/ReportsMenu.vue'
+import ReportView from './components/ReportView.vue'
+import ReportCharts from './components/ReportCharts.vue'
 
 // ── Estado de navegación ──────────────────────────────────────────────────────
 const currentScreen = ref<Screen>('login')

@@ -25,3 +25,6 @@ export type Screen =
   | 'user-form'
   | 'system-parameters'
   | 'audit-log'
+  | 'reports'
+  | 'report-view'
+  | 'report-charts'

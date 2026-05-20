@@ -96,6 +96,9 @@ const breadcrumbMap: Record<string, string[]> = {
   'user-form': ['Inicio', 'Configuración', 'Usuarios', 'Formulario'],
   'system-parameters': ['Inicio', 'Configuración', 'Parámetros del Sistema'],
   'audit-log': ['Inicio', 'Configuración', 'Registro de Auditoría'],
+  reports: ['Inicio', 'Reportes'],
+  'report-view': ['Inicio', 'Reportes', 'Vista de Reporte'],
+  'report-charts': ['Inicio', 'Reportes', 'Estadísticas y Gráficas'],
 }
 
 const breadcrumbs = computed(
